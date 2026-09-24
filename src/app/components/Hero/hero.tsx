@@ -32,7 +32,7 @@ export default function Hero() {
           </p>
 
           <Link
-            href="/workouts"
+            href="#library"
             className="btn mt-6 h-10 min-h-0 rounded-md border-0 bg-[#c4f000] px-6 text-xs font-bold text-black shadow-none hover:bg-[#d4ff20]"
           >
             BROWSE WORKOUTS

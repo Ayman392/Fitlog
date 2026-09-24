@@ -1,6 +1,7 @@
+import { IWorkout } from "@/Types/workouts.type";
 import { Oswald } from "next/font/google";
-import workouts from "@/app/data/workouts.json";
 import Image from "next/image";
+import Link from "next/link";
 
 const oswald = Oswald({
   subsets: ["latin"],
@@ -36,9 +37,15 @@ function StatIcon({ type }: { type: "clock" | "fire" | "star" }) {
   );
 }
 
-export default function WorkoutLibrary() {
+export default async function WorkoutLibrary() {
+  const data = await fetch("https://api.abcz.workers.dev/api/fitlog");
+  if (!data.ok) {
+    throw new Error("Failed to load workouts");
+  }
+  const workouts = await data.json();
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   return (
-    <section className="py-6">
+    <section id="library" className="py-6">
       <h2
         className={`${oswald.className} text-2xl md:text-4xl leading-tight font-bold uppercase text-white`}
       >
@@ -50,8 +57,9 @@ export default function WorkoutLibrary() {
       </p>
 
       <div className="mt-5 grid grid-cols-2 md:grid-cols-3 gap-5">
-        {workouts.map((workout) => (
-          <article
+        {workouts.map((workout: IWorkout) => (
+          <Link
+            href={`/src/app/workouts/${workout.id}`}
             key={workout.id}
             className="card gap-0 overflow-hidden rounded-xl border border-[#24272e] bg-[#15171c] shadow-none"
           >
@@ -105,7 +113,7 @@ export default function WorkoutLibrary() {
                 </span>
               </div>
             </div>
-          </article>
+          </Link>
         ))}
       </div>
     </section>

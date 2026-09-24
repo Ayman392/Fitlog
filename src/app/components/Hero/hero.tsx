@@ -10,7 +10,7 @@ const oswald = Oswald({
 
 export default function Hero() {
   return (
-    <section className="hero overflow-hidden rounded-2xl mt-10 border border-[#24272e] bg-[#15171c] ">
+    <section className="hero overflow-hidden rounded-2xl mt-10 border border-[#24272e] bg-[#15171c] px-4 md:px-1">
       <div className="hero-content w-full max-w-none flex-col gap-8 px-6 py-10 md:flex-row md:justify-between md:px-12 md:py-12">
         <div className="w-full md:max-w-[62%]">
           <p className="mb-5 text-[10px] font-bold tracking-widest text-[#c4f000]">

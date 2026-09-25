@@ -43,7 +43,7 @@ export default async function WorkoutLibrary() {
     throw new Error("Failed to load workouts");
   }
   const workouts = await data.json();
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  // await new Promise((resolve) => setTimeout(resolve, 1000)); [used this for testing]
   return (
     <section id="library" className="py-6">
       <h2
@@ -56,10 +56,10 @@ export default async function WorkoutLibrary() {
         Twelve lifts covering every major muscle group.
       </p>
 
-      <div className="mt-5 grid grid-cols-2 md:grid-cols-3 gap-5">
+      <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-5">
         {workouts.map((workout: IWorkout) => (
           <Link
-            href={`/src/app/workouts/${workout.id}`}
+            href={`/workouts/${workout.id}`}
             key={workout.id}
             className="card gap-0 overflow-hidden rounded-xl border border-[#24272e] bg-[#15171c] shadow-none"
           >
@@ -74,12 +74,12 @@ export default async function WorkoutLibrary() {
               />
             </figure>
 
-            <div className="card-body gap-0 p-3.75">
+            <div className="card-body gap-2 p-3.75">
               <div className="flex flex-wrap gap-1">
                 {workout.muscleGroups.map((muscle) => (
                   <span
                     key={muscle}
-                    className="badge h-3.5 min-h-0 rounded-full border-0 bg-[#c4f000] px-1.75 text-[8px] font-bold text-black uppercase"
+                    className="badge h-3.5 md:h-4.5 min-h-0 rounded-full border-0 bg-[#c4f000] px-1.75 text-[8px] md:text-[10px] font-bold text-black uppercase"
                   >
                     {muscle}
                   </span>
@@ -87,16 +87,16 @@ export default async function WorkoutLibrary() {
               </div>
 
               <h3
-                className={`${oswald.className} mt-2 text-[12px] leading-4 font-bold tracking-wide text-white uppercase`}
+                className={`${oswald.className} mt-2 text-[12px] md:text-2xl leading-4 font-bold tracking-wide text-white uppercase`}
               >
                 {workout.name}
               </h3>
 
-              <p className="mt-1 text-[8px] leading-3 text-[#9298a3]">
+              <p className="mt-2 text-[8px] md:text-[14px] leading-3 text-[#9298a3]">
                 {workout.equipment}
               </p>
 
-              <div className="mt-2.5 flex items-center gap-3 border-t border-[#24272e] pt-2 text-[8px] text-[#9298a3]">
+              <div className="mt-2.5 flex items-center gap-3 border-t border-[#24272e] pt-2 text-[8px] md:text-[14px] text-[#9298a3]">
                 <span className="flex items-center gap-1">
                   <StatIcon type="clock" />
                   {workout.duration} min

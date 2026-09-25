@@ -9,6 +9,7 @@ interface WorkoutContextValue {
   saved: IWorkout[];
   addToPlan: (workout: IWorkout) => void;
   saveWorkout: (workout: IWorkout) => void;
+  removeFromPlan: (id: IWorkout["id"]) => void;
 }
 
 export const WorkoutContext = createContext<WorkoutContextValue | null>(null);
@@ -41,8 +42,14 @@ export default function WorkoutProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const removeFromPlan = (id: IWorkout["id"]) => {
+    setPlan((previous) => previous.filter((workout) => workout.id !== id));
+  };
+
   return (
-    <WorkoutContext.Provider value={{ plan, saved, addToPlan, saveWorkout }}>
+    <WorkoutContext.Provider
+      value={{ plan, saved, addToPlan, saveWorkout, removeFromPlan }}
+    >
       {children}
     </WorkoutContext.Provider>
   );

@@ -20,7 +20,14 @@ export default function PlanList() {
     throw new Error("PlanList must be inside WorkoutProvider");
   }
 
-  const { plan, saved, removeFromPlan } = context;
+  const {
+    plan,
+    saved,
+    removeFromPlan,
+    completedIds,
+    markAsDone,
+    removeFromSaved,
+  } = context;
 
   const totalMinutes = plan.reduce(
     (total, workout) => total + workout.duration,
@@ -175,20 +182,36 @@ export default function PlanList() {
 
               <Link
                 href={`/workouts/${workout.id}`}
-                className="btn btn-outline btn-sm text-gray-200"
+                className="btn btn-outline rounded-2xl px-5 btn-sm text-gray-200"
               >
                 View Details
               </Link>
               {activeTab === "plan" && (
                 <button
                   type="button"
-                  onClick={() => removeFromPlan(workout.id)}
-                  aria-label={`Remove ${workout.name} from today's plan`}
-                  className="btn btn-ghost btn-square btn-md text-2xl text-gray-400 hover:bg-red-500/10 hover:text-red-400"
+                  onClick={() => markAsDone(workout.id)}
+                  disabled={completedIds.includes(workout.id)}
+                  className="btn btn-sm rounded-2xl px-5 border-0 bg-[#c4f000] text-black disabled:bg-[#222b16] disabled:text-[#c4f000]"
                 >
-                  ×
+                  {completedIds.includes(workout.id)
+                    ? "✓ Done"
+                    : "Mark as Done"}
                 </button>
               )}
+              <button
+                type="button"
+                onClick={() =>
+                  activeTab === "plan"
+                    ? removeFromPlan(workout.id)
+                    : removeFromSaved(workout.id)
+                }
+                aria-label={`Remove ${workout.name} from ${
+                  activeTab === "plan" ? "your plan" : "saved workouts"
+                }`}
+                className="btn btn-ghost btn-square btn-sm text-xl text-gray-400 hover:bg-red-500/10 hover:text-red-400"
+              >
+                ×
+              </button>
             </li>
           ))}
         </ul>

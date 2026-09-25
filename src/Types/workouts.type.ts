@@ -11,5 +11,5 @@ export interface IWorkout {
   reps: number
   rating: number
   description: string
-  instructions: string
+  instructions: string[]
 }

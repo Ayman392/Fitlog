@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import type { IWorkout } from "@/Types/workouts.type";
 
@@ -21,6 +21,7 @@ export default function WorkoutProvider({ children }: { children: ReactNode }) {
   const [plan, setPlan] = useState<IWorkout[]>([]);
   const [saved, setSaved] = useState<IWorkout[]>([]);
   const [completedIds, setCompletedIds] = useState<IWorkout["id"][]>([]);
+  const [toastMessage, setToastMessage] = useState("");
 
   const addToPlan = (workout: IWorkout) => {
     setPlan((previous) => {
@@ -35,15 +36,20 @@ export default function WorkoutProvider({ children }: { children: ReactNode }) {
   };
 
   const saveWorkout = (workout: IWorkout) => {
-    setSaved((previous) => {
-      const alreadySaved = previous.some((item) => item.id === workout.id);
+    const alreadySaved = saved.some((item) => item.id === workout.id);
 
-      if (alreadySaved) {
-        return previous;
-      }
+    if (alreadySaved) {
+      setToastMessage("Already saved for later");
+      return;
+    }
 
-      return [...previous, workout];
-    });
+    setSaved((previous) =>
+      previous.some((item) => item.id === workout.id)
+        ? previous
+        : [...previous, workout],
+    );
+
+    setToastMessage("Saved for later");
   };
 
   const removeFromPlan = (id: IWorkout["id"]) => {
@@ -56,11 +62,18 @@ export default function WorkoutProvider({ children }: { children: ReactNode }) {
     );
   };
   const removeFromSaved = (id: IWorkout["id"]) => {
-  setSaved((previous) =>
-    previous.filter((workout) => workout.id !== id)
-  );
-};
+    setSaved((previous) => previous.filter((workout) => workout.id !== id));
+  };
 
+  useEffect(() => {
+    if (!toastMessage) return;
+
+    const timer = setTimeout(() => {
+      setToastMessage("");
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [toastMessage]);
   return (
     <WorkoutContext.Provider
       value={{
@@ -75,6 +88,20 @@ export default function WorkoutProvider({ children }: { children: ReactNode }) {
       }}
     >
       {children}
+     {toastMessage && (
+  <div className="toast toast-end toast-top z-50">
+    <div
+      key={toastMessage}
+      role="status"
+      className="alert toast-enter border border-[#c4f000] bg-[#15171c] text-white shadow-lg"
+    >
+      <span className="text-[#c4f000]" aria-hidden="true">
+        ✓
+      </span>
+      <span>{toastMessage}</span>
+    </div>
+  </div>
+)}
     </WorkoutContext.Provider>
   );
 }

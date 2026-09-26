@@ -1,110 +1,187 @@
 <div align="center">
 
-![FitLog Banner](https://capsule-render.vercel.app/api?type=waving&color=0:0F0F0F,100:CCFF00&height=200&section=header&text=FitLog&fontSize=70&fontColor=CCFF00&animation=fadeIn&fontAlignY=38&desc=Train%20With%20Intent.%20Log%20Every%20Set.&descAlignY=58&descSize=18&descColor=FFFFFF)
+# 💪 FitLog
 
-<a href="https://fitlog-eosin-kappa.vercel.app/">
-  <img src="https://readme-typing-svg.demolab.com?font=Oswald&size=22&duration=3000&pause=1000&color=CCFF00&center=true&vCenter=true&width=500&lines=A+dark%2C+no-nonsense+gym+companion;Pick+a+lift.+Lock+it+in.+Log+it.;Built+with+Next.js+%2B+Tailwind+CSS" alt="Typing SVG" />
-</a>
+### Train With Intent. Log Every Set.
 
-<br/>
+A responsive workout library and planning application built with Next.js.  
+FitLog allows users to explore workouts, view detailed exercise information, create a daily workout plan, save exercises for later, track workout metrics, and manage their training through a responsive dark-themed interface.
 
-[![Live Demo](https://img.shields.io/badge/🔗_Live_Demo-CCFF00?style=for-the-badge&logoColor=black&labelColor=0F0F0F)](https://fitlog-eosin-kappa.vercel.app/)
-[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
+### 🔗 [Live Website](https://fitlog-eosin-kappa.vercel.app/) • [GitHub Repository](https://github.com/Ayman392/Fitlog)
 
 </div>
 
 ---
 
-## 📖 About
+## 📸 Project Preview
 
-FitLog is a workout tracking web app built for lifters who want to plan their sessions without the clutter. Browse a library of twelve curated exercises, dive into detailed instructions and stats for each one, and build out your daily plan with a single click — all wrapped in a bold, high-contrast dark UI.
+<img src="./public/screenshots/fitlog-home.png" alt="FitLog Homepage" width="100%" />
 
-<div align="center">
-<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="500">
-</div>
+<br />
+
+<img src="./public/screenshots/fitlog-library.png" alt="FitLog Workout Library" width="100%" />
+
+---
+
+## 📖 About The Project
+
+**FitLog** is a workout library and daily workout planning application built using **Next.js**.
+
+Users can browse a library of twelve workouts, open detailed exercise pages, add workouts to **Today's Plan**, save workouts for later, monitor workout metrics, and manage their selected exercises from the **My Plan** page.
+
+The application follows a dark, gym-focused interface and is designed to work across mobile, tablet, and desktop screen sizes.
 
 ---
 
 ## ✨ Key Features
 
-<table>
-<tr>
-<td width="50%">
-
 ### 🏋️ Workout Library
-Browse 12 exercises in a responsive 3×4 grid — each card shows an image, category tags, equipment, and duration/calories/rating stats.
 
-### 📄 Detailed Workout Pages
-Full specs (equipment, difficulty, sets, reps), a 4-step instruction list, and a hero image for every lift.
+- Displays **12 workouts** from the FitLog API.
+- Responsive workout-card layout.
+- Each card displays:
+  - Exercise image
+  - Category tags
+  - Workout name
+  - Equipment
+  - Duration
+  - Calories
+  - Rating
+- Clicking a workout opens its detailed page.
 
-### 📝 Today's Plan & Saved Tabs
-Add a workout to your plan or save it for later, then manage both lists from the My Plan page.
+### 📖 Workout Details
 
-</td>
-<td width="50%">
+Each workout has a dedicated details page containing:
 
-### 🔔 Live Badges & Toasts
-Navbar badges update instantly as you add or remove workouts, with toast notifications confirming every action.
+- Large workout image
+- Workout title and description
+- Category tags
+- Equipment
+- Difficulty
+- Sets
+- Repetitions
+- Duration
+- Calories
+- Rating
+- Step-by-step instructions
 
-### 📊 Live Metrics Summary
-Total exercises, minutes, and calories update in real time as your plan changes.
+Users can perform two main actions:
 
-### 🔀 Sort by Duration, Calories, or Rating
-Re-order the library on the fly with a quick sort dropdown.
+- **Add to Today's Plan**
+- **Save for Later**
 
-</td>
-</tr>
-</table>
+### 📅 Today's Plan
 
-<div align="center">
-  <img src="https://img.shields.io/badge/📱_Fully_Responsive-CCFF00?style=flat-square&labelColor=0F0F0F" />
-</div>
+Users can add exercises to their daily workout plan.
+
+The plan provides:
+
+- Selected workout list
+- Exercise information
+- View Details option
+- Mark as Done action
+- Remove action
+- Toast notifications for relevant actions
+
+### ❤️ Saved Workouts
+
+Users can save exercises for later and access them from the **Saved** tab of the My Plan page.
+
+The Saved counter in the navbar updates based on the number of saved exercises.
+
+### 📊 Live Workout Metrics
+
+The **My Plan** page calculates and displays:
+
+- Total Exercises
+- Total Minutes
+- Total Calories
+
+These metrics update as workouts are added to or removed from Today's Plan.
+
+### 🔢 Dynamic Navbar Counters
+
+The navbar contains two status counters:
+
+- **Plan**
+- **Saved**
+
+The counters update according to the number of workouts currently in each collection.
+
+### 🔀 Workout Sorting
+
+The workout list can be sorted using the **Sort By** control.
+
+Available sorting options:
+
+- Duration
+- Calories
+- Rating
+
+### 🔔 Toast Notifications
+
+Relevant toast notifications provide feedback when users:
+
+- Add a workout to Today's Plan
+- Save a workout
+- Mark a workout as done
+- Remove a workout
+
+### ⏳ Loading States
+
+Loading feedback is displayed while workout information is being fetched.
+
+### 🚫 Custom 404 Page
+
+Unknown or invalid routes display a custom **404 page** instead of an application error.
+
+### 📱 Responsive Design
+
+FitLog is designed to work across:
+
+- Mobile
+- Tablet
+- Desktop
+
+The workout grid, navbar, hero section, details page, and My Plan interface adapt to different screen sizes.
 
 ---
 
-## 🛠️ Tech Stack
+## 🧭 Main Pages
 
-<div align="center">
+| Page | Route | Purpose |
+|---|---|---|
+| Home | `/` | Browse the workout library |
+| Workout Details | Dynamic workout route | View complete workout information |
+| My Plan | `/my-plan` | Manage Today's Plan and Saved workouts |
+| 404 | Invalid routes | Handle unknown pages |
+
+---
+
+## 🛠️ Technologies Used
+
+<p align="left">
+  <img src="https://skillicons.dev/icons?i=nextjs,react,ts,tailwind" alt="Next.js, React, TypeScript and Tailwind CSS" />
+</p>
 
 | Technology | Purpose |
-|:---:|:---:|
-| ⚛️ **Next.js (App Router)** | Framework, routing, and rendering |
-| 🎨 **Tailwind CSS** | Styling and responsive layout |
-| 🔷 **TypeScript** | Type-safe development |
-| ▲ **Vercel** | Deployment and hosting |
-
-</div>
-
----
-
-## 🚀 Getting Started
-
-```bash
-# clone the repo
-git clone https://github.com/Ayman392/Fitlog.git
-cd Fitlog
-
-# install dependencies
-npm install
-
-# run the dev server
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+|---|---|
+| **Next.js** | Application framework |
+| **React** | Component-based user interface |
+| **TypeScript** | Type-safe development |
+| **Next.js App Router** | Application routing |
+| **Tailwind CSS** | Styling and responsive design |
+| **DaisyUI** | UI component styling |
+| **FitLog API** | Workout data |
+| **Vercel** | Application deployment |
 
 ---
 
-<div align="center">
+## 🌐 API
 
-### 📬 Author
+Workout information is retrieved from the FitLog API.
 
-**[Ayman392](https://github.com/Ayman392)**
+### All Workouts
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:CCFF00,100:0F0F0F&height=100&section=footer"/>
-
-</div>
+```text
+https://api.abcz.workers.dev/api/fitlog

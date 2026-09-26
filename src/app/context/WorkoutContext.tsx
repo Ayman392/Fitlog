@@ -22,18 +22,30 @@ export default function WorkoutProvider({ children }: { children: ReactNode }) {
   const [saved, setSaved] = useState<IWorkout[]>([]);
   const [completedIds, setCompletedIds] = useState<IWorkout["id"][]>([]);
   const [toastMessage, setToastMessage] = useState("");
+const addToPlan = (workout: IWorkout) => {
+  const alreadyAdded = plan.some(
+    (item) => item.id === workout.id
+  );
 
-  const addToPlan = (workout: IWorkout) => {
-    setPlan((previous) => {
-      const alreadyAdded = previous.some((item) => item.id === workout.id);
+  if (alreadyAdded) {
+    setToastMessage("Already in today's plan");
+    return;
+  }
 
-      if (alreadyAdded) {
-        return previous;
-      }
+  if (plan.length >= 5) {
+    setToastMessage("Cap of five lifts for today. Finish them, then load more.");
+    return;
+  }
 
-      return [...previous, workout];
-    });
-  };
+  setPlan((previous) =>
+    previous.length >= 5 ||
+    previous.some((item) => item.id === workout.id)
+      ? previous
+      : [...previous, workout]
+  );
+
+  setToastMessage("Added to today's plan");
+};
 
   const saveWorkout = (workout: IWorkout) => {
     const alreadySaved = saved.some((item) => item.id === workout.id);
@@ -52,17 +64,26 @@ export default function WorkoutProvider({ children }: { children: ReactNode }) {
     setToastMessage("Saved for later");
   };
 
-  const removeFromPlan = (id: IWorkout["id"]) => {
-    setPlan((previous) => previous.filter((workout) => workout.id !== id));
-  };
+const removeFromPlan = (id: IWorkout["id"]) => {
+  setPlan((previous) =>
+    previous.filter((workout) => workout.id !== id)
+  );
 
+  setCompletedIds((previous) =>
+    previous.filter((completedId) => completedId !== id)
+  );
+
+  setToastMessage("Removed from today's plan");
+};
   const markAsDone = (id: IWorkout["id"]) => {
     setCompletedIds((previous) =>
       previous.includes(id) ? previous : [...previous, id],
     );
+    setToastMessage("Workout completed");
   };
   const removeFromSaved = (id: IWorkout["id"]) => {
     setSaved((previous) => previous.filter((workout) => workout.id !== id));
+    setToastMessage("Removed from saved workouts");
   };
 
   useEffect(() => {
@@ -88,20 +109,20 @@ export default function WorkoutProvider({ children }: { children: ReactNode }) {
       }}
     >
       {children}
-     {toastMessage && (
-  <div className="toast toast-end toast-top z-50">
-    <div
-      key={toastMessage}
-      role="status"
-      className="alert toast-enter border border-[#c4f000] bg-[#15171c] text-white shadow-lg"
-    >
-      <span className="text-[#c4f000]" aria-hidden="true">
-        ✓
-      </span>
-      <span>{toastMessage}</span>
-    </div>
-  </div>
-)}
+      {toastMessage && (
+        <div className="toast toast-end toast-top z-50">
+          <div
+            key={toastMessage}
+            role="status"
+            className="alert toast-enter border border-[#c4f000] bg-[#15171c] text-white shadow-lg"
+          >
+            <span className="text-[#c4f000]" aria-hidden="true">
+              ✓
+            </span>
+            <span>{toastMessage}</span>
+          </div>
+        </div>
+      )}
     </WorkoutContext.Provider>
   );
 }

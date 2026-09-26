@@ -2,6 +2,7 @@ import { IWorkout } from "@/Types/workouts.type";
 import Image from "next/image";
 import { Oswald } from "next/font/google";
 import WorkoutActions from "@/app/components/WorkoutActions/WorkoutActions";
+import { notFound } from "next/navigation"
 
 const oswald = Oswald({
   subsets: ["latin"],
@@ -23,13 +24,14 @@ const getWorkouts = async () => {
 
   const workouts: IWorkout[] = await data.json();
   return workouts;
+  
 };
 const WorkoutDetailsPage = async ({ params }: IWorkoutDetailsPageProps) => {
   const { workoutID } = await params;
   const workouts = await getWorkouts();
   const workout = workouts.find((item) => String(item.id) === workoutID);
   if (!workout) {
-    return <h2>not found</h2>;
+    notFound();
   }
   return (
     <section className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-5 py-8 md:grid-cols-2 md:gap-10">

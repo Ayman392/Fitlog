@@ -38,10 +38,16 @@ function StatIcon({ type }: { type: "clock" | "fire" | "star" }) {
 }
 
 export default async function WorkoutLibrary() {
-  const data = await fetch("https://api.abcz.workers.dev/api/fitlog");
+  let data = await fetch("https://api.abcz.workers.dev/api/fitlog");
+
+  if (!data.ok) {
+    data = await fetch("https://api.api-store.workers.dev/api/fitlog");
+  }
+
   if (!data.ok) {
     throw new Error("Failed to load workouts");
   }
+
   const workouts = await data.json();
   // await new Promise((resolve) => setTimeout(resolve, 1000)); [used this for testing]
   return (

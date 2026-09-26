@@ -16,6 +16,44 @@ interface WorkoutContextValue {
   removeFromSaved: (id: IWorkout["id"]) => void;
 }
 
+const RELOAD_COUNT_KEY = "fitlog-reload-count";
+const RELOAD_TIME_KEY = "fitlog-reload-time";
+const RELOAD_WINDOW_MS = 5000; // reloads within 5s of each other count as "continuous"
+const RELOAD_THRESHOLD = 3;
+
+function resetOnTripleReload() {
+  if (typeof window === "undefined") return;
+
+  const [entry] = performance.getEntriesByType("navigation") as PerformanceNavigationTiming[];
+  const isReload = entry?.type === "reload";
+
+  if (!isReload) {
+    // normal navigation (clicked a link, typed a URL, etc.) breaks the streak
+    sessionStorage.removeItem(RELOAD_COUNT_KEY);
+    sessionStorage.removeItem(RELOAD_TIME_KEY);
+    return;
+  }
+
+  const now = Date.now();
+  const lastTime = Number(sessionStorage.getItem(RELOAD_TIME_KEY) || 0);
+  const prevCount = Number(sessionStorage.getItem(RELOAD_COUNT_KEY) || 0);
+
+  // if too much time passed since the last reload, it's not "continuous" — restart the count
+  const withinWindow = now - lastTime < RELOAD_WINDOW_MS;
+  const newCount = withinWindow ? prevCount + 1 : 1;
+
+  sessionStorage.setItem(RELOAD_TIME_KEY, String(now));
+  sessionStorage.setItem(RELOAD_COUNT_KEY, String(newCount));
+
+  if (newCount >= RELOAD_THRESHOLD) {
+    localStorage.removeItem("fitlog-data");
+    sessionStorage.removeItem(RELOAD_COUNT_KEY);
+    sessionStorage.removeItem(RELOAD_TIME_KEY);
+  }
+}
+
+resetOnTripleReload();
+
 export const WorkoutContext = createContext<WorkoutContextValue | null>(null);
 
 export default function WorkoutProvider({ children }: { children: ReactNode }) {

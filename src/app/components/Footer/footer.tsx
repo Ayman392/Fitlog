@@ -22,7 +22,7 @@ export default function Footer() {
         </Link>
 
         <p className="text-center text-[10px] text-[#858b97]">
-          © 2026 FitLog — Workout Library. Train hard. Log honest.
+          © 2026 FitLog — Workout Library. Train hard, Log honest.
         </p>
       </div>
     </footer>

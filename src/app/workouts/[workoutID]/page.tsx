@@ -2,7 +2,7 @@ import { IWorkout } from "@/Types/workouts.type";
 import Image from "next/image";
 import { Oswald } from "next/font/google";
 import WorkoutActions from "@/app/components/WorkoutActions/WorkoutActions";
-import { notFound } from "next/navigation"
+import { notFound } from "next/navigation";
 
 const oswald = Oswald({
   subsets: ["latin"],
@@ -16,7 +16,12 @@ interface IWorkoutDetailsPageProps {
 }
 
 const getWorkouts = async () => {
-  const data = await fetch("https://api.abcz.workers.dev/api/fitlog");
+  let data = await fetch("https://api.abcz.workers.dev/api/fitlog");
+
+  // Use the assignment's alternative API only if the primary API fails
+  if (!data.ok) {
+    data = await fetch("https://api.api-store.workers.dev/api/fitlog");
+  }
 
   if (!data.ok) {
     throw new Error("Failed to load workouts");
@@ -24,7 +29,6 @@ const getWorkouts = async () => {
 
   const workouts: IWorkout[] = await data.json();
   return workouts;
-  
 };
 const WorkoutDetailsPage = async ({ params }: IWorkoutDetailsPageProps) => {
   const { workoutID } = await params;

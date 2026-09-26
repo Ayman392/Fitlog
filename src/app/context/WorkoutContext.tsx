@@ -7,6 +7,7 @@ import type { IWorkout } from "@/Types/workouts.type";
 interface WorkoutContextValue {
   plan: IWorkout[];
   saved: IWorkout[];
+  isLoaded: boolean;
   addToPlan: (workout: IWorkout) => void;
   saveWorkout: (workout: IWorkout) => void;
   removeFromPlan: (id: IWorkout["id"]) => void;
@@ -18,11 +19,61 @@ interface WorkoutContextValue {
 export const WorkoutContext = createContext<WorkoutContextValue | null>(null);
 
 export default function WorkoutProvider({ children }: { children: ReactNode }) {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [plan, setPlan] = useState<IWorkout[]>([]);
   const [saved, setSaved] = useState<IWorkout[]>([]);
   const [completedIds, setCompletedIds] = useState<IWorkout["id"][]>([]);
   const [toastMessage, setToastMessage] = useState("");
-const addToPlan = (workout: IWorkout) => {
+  
+
+/* Restore browser-only storage after hydration; one extra render is intentional. */
+/* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+  try {
+    const stored = localStorage.getItem("fitlog-data");
+
+    if (stored) {
+      const data = JSON.parse(stored);
+
+      if (Array.isArray(data.plan)) {
+        setPlan(data.plan);
+      }
+
+      if (Array.isArray(data.saved)) {
+        setSaved(data.saved);
+      }
+
+      if (Array.isArray(data.completedIds)) {
+        setCompletedIds(data.completedIds);
+      }
+    }
+  } catch {
+    console.warn("Could not load saved FitLog data.");
+  } finally {
+    setIsLoaded(true);
+  }
+}, []);
+/* eslint-enable react-hooks/set-state-in-effect */
+useEffect(() => {
+  if (!isLoaded) return;
+
+  try {
+    localStorage.setItem(
+      "fitlog-data",
+      JSON.stringify({
+        plan,
+        saved,
+        completedIds,
+      })
+    );
+  } catch {
+    console.warn("Could not save FitLog data.");
+  }
+}, [plan, saved, completedIds, isLoaded]);
+  
+  
+  
+  const addToPlan = (workout: IWorkout) => {
   const alreadyAdded = plan.some(
     (item) => item.id === workout.id
   );
@@ -100,6 +151,7 @@ const removeFromPlan = (id: IWorkout["id"]) => {
       value={{
         plan,
         saved,
+        isLoaded,
         addToPlan,
         saveWorkout,
         removeFromPlan,

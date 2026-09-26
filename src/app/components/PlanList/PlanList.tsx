@@ -24,11 +24,26 @@ export default function PlanList() {
     plan,
     saved,
     removeFromPlan,
+    removeFromSaved,
     completedIds,
     markAsDone,
-    removeFromSaved,
+    isLoaded,
   } = context;
 
+  if (!isLoaded) {
+    return (
+      <div
+        role="status"
+        className="flex min-h-60 items-center justify-center gap-3 text-gray-400"
+      >
+        <span
+          className="loading loading-spinner loading-md"
+          aria-hidden="true"
+        />
+        <p>Loading workouts…</p>
+      </div>
+    );
+  }
   const totalMinutes = plan.reduce(
     (total, workout) => total + workout.duration,
     0,

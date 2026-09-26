@@ -1,11 +1,5 @@
-import React from 'react';
+import { redirect } from "next/navigation";
 
-const Workout = () => {
-    return (
-        <div>
-            <h2>workout is loading</h2>
-        </div>
-    );
-};
-
-export default Workout;
+export default function WorkoutsPage() {
+  redirect("/");
+}
